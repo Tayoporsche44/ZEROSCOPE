@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-zinc-950 text-zinc-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            acid: '#c8ff00',
+            void: '#0a0a0a',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .acid-border { border: 1px solid #c8ff00; }
+    .acid-glow { box-shadow: 0 0 12px rgba(200, 255, 0, 0.25); }
+    .card-hover { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .card-hover:hover { transform: translateY(-2px); box-shadow: 0 4px 24px rgba(200, 255, 0, 0.12); }
+    .tag { display: inline-block; font-size: 0.65rem; font-family: 'JetBrains Mono', monospace;
+           padding: 2px 8px; border-radius: 2px; background: rgba(200,255,0,0.08);
+           color: #c8ff00; border: 1px solid rgba(200,255,0,0.25); }
+  </style>
+</head>
+<body class="min-h-screen bg-zinc-950">
+
+  <!-- Nav -->
+  <nav class="border-b border-zinc-800 bg-void px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <span class="text-acid font-mono font-semibold text-lg tracking-tight">ZERO</span>
+      <span class="text-zinc-400 font-mono text-xs uppercase tracking-widest mt-0.5">SCOPE</span>
+    </a>
+    <div class="flex items-center gap-6 text-sm">
+      <a href="/" class="text-zinc-400 hover:text-acid transition-colors font-mono">Dashboard</a>
+      <a href="/bookmarks" class="text-zinc-400 hover:text-acid transition-colors font-mono">Bookmarks</a>
+      <span class="text-zinc-700 font-mono text-xs">Zero Authority DAO</span>
+    </div>
+  </nav>

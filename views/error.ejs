@@ -1,0 +1,13 @@
+<%- include('header') %>
+
+<main class="max-w-2xl mx-auto px-6 py-24 text-center">
+  <div class="font-mono text-8xl font-bold text-zinc-800 mb-4"><%= statusCode %></div>
+  <h1 class="text-xl font-semibold text-zinc-300 mb-3">Something went wrong</h1>
+  <p class="text-zinc-500 text-sm mb-8 font-mono"><%= message %></p>
+  <a href="/" class="acid-border text-acid font-mono text-xs px-6 py-3 rounded inline-block
+                     hover:bg-acid hover:text-void transition-all">
+    ← Return to Dashboard
+  </a>
+</main>
+
+<%- include('footer') %>

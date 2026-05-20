@@ -1,0 +1,107 @@
+<%- include('partials/header') %>
+
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+  <!-- Page Header -->
+  <div class="mb-10 flex items-start justify-between">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-zinc-100">
+        Your <span class="text-acid">Bookmarks</span>
+      </h1>
+      <p class="text-zinc-500 text-sm mt-1 font-mono">Saved opportunities from the DAO feed</p>
+    </div>
+    <a href="/"
+       class="border border-zinc-700 text-zinc-400 font-mono text-xs px-4 py-2 rounded
+              hover:text-zinc-100 hover:border-zinc-500 transition-all">
+      ← Dashboard
+    </a>
+  </div>
+
+  <!-- ── Analytics Strip ─────────────────────────────────── -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-5">
+      <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest mb-1">Total Saved</div>
+      <div class="text-3xl font-bold text-acid"><%= analytics.totalBookmarks %></div>
+    </div>
+    <% Object.entries(analytics.statusBreakdown).forEach(function([status, count]) { %>
+      <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-5">
+        <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest mb-1"><%= status %></div>
+        <div class="text-3xl font-bold text-zinc-100"><%= count %></div>
+      </div>
+    <% }); %>
+  </div>
+
+  <!-- ── Bookmarks List ─────────────────────────────────── -->
+  <% if (!bookmarks || bookmarks.length === 0) { %>
+    <div class="border border-zinc-800 rounded-lg p-16 text-center">
+      <p class="text-zinc-500 font-mono text-sm mb-4">No bookmarks saved yet.</p>
+      <a href="/"
+         class="acid-border text-acid font-mono text-xs px-6 py-3 rounded inline-block
+                hover:bg-acid hover:text-void transition-all">
+        Browse Opportunities →
+      </a>
+    </div>
+  <% } else { %>
+    <div class="flex flex-col gap-4">
+      <% bookmarks.forEach(function(bm) { %>
+        <%
+          const statusColor = bm.status === 'open'
+            ? 'text-acid'
+            : bm.status === 'in-progress'
+              ? 'text-yellow-400'
+              : 'text-zinc-500';
+        %>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-5 card-hover">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+
+            <!-- Left: Info -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="tag"><%= bm.category %></span>
+                <span class="font-mono text-xs <%= statusColor %>">● <%= bm.status %></span>
+              </div>
+              <h2 class="text-sm font-semibold text-zinc-100 mb-1"><%= bm.title %></h2>
+              <p class="text-zinc-500 text-xs leading-relaxed line-clamp-2"><%= bm.description %></p>
+              <% if (bm.notes) { %>
+                <p class="text-zinc-600 text-xs mt-2 italic">"<%= bm.notes %>"</p>
+              <% } %>
+              <p class="font-mono text-xs text-zinc-700 mt-3">
+                Saved <%= new Date(bm.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+              </p>
+            </div>
+
+            <!-- Right: Reward + Actions -->
+            <div class="flex md:flex-col items-center md:items-end justify-between md:justify-start gap-3 shrink-0">
+              <div class="text-right">
+                <div class="font-mono font-bold text-acid text-lg"><%= bm.reward %></div>
+                <div class="font-mono text-xs text-zinc-500"><%= bm.rewardToken %></div>
+              </div>
+              <div class="flex gap-2">
+                <% if (bm.url) { %>
+                  <a href="<%= bm.url %>" target="_blank" rel="noopener noreferrer"
+                     class="font-mono text-xs px-3 py-1.5 rounded border border-zinc-700
+                            text-zinc-400 hover:text-zinc-100 hover:border-zinc-500 transition-colors">
+                    View
+                  </a>
+                <% } %>
+                <!-- Delete form using POST + method override pattern (no JS required) -->
+                <form action="/bookmarks/<%= bm._id %>?_method=DELETE" method="POST"
+                      onsubmit="return confirm('Remove this bookmark?')">
+                  <button type="submit"
+                          class="font-mono text-xs px-3 py-1.5 rounded border border-red-900/50
+                                 text-red-500 hover:bg-red-950 transition-colors">
+                    Remove
+                  </button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+
+</main>
+
+<%- include('partials/footer') %>
