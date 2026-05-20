@@ -17,14 +17,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// MongoDB
+// MongoDB — non-fatal connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/zeroscope';
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log(`[MongoDB] Connected → ${MONGO_URI}`))
-  .catch((err) => { console.error('[MongoDB] Error:', err.message); process.exit(1); });
+  .catch((err) => console.error('[MongoDB] Connection failed:', err.message));
 
-// ─── Routes ──────────────────────────────────────────────────
+// Routes
 app.get('/', dashboardController.getDashboard);
 app.get('/bookmarks', dashboardController.getBookmarks);
 app.post('/bookmarks', dashboardController.saveBookmark);
@@ -41,7 +41,6 @@ app.use((req, res) => {
 });
 
 // Global error handler
-// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error('[Error]', err.message);
   res.status(err.status || 500).render('error', {
